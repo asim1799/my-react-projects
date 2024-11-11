@@ -1,18 +1,11 @@
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-function Login() {
-  const [user, setUser] = useState({});
+function Login({ setUser }) {
   const { register, handleSubmit } = useForm();
   function onSubmit(data) {
     setUser(data);
   }
-  useEffect(
-    function () {
-      console.log(user);
-    },
-    [user]
-  );
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input
