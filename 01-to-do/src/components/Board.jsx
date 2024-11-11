@@ -20,6 +20,7 @@ const StyledBoard = styled.div`
   }
   span:hover {
     color: #c6ad00;
+    cursor: pointer;
   }
   svg {
     position: absolute;
@@ -35,8 +36,11 @@ const StyledBoard = styled.div`
   }
 `;
 function Board({ activities, setActivities }) {
-  function handleDone(e) {
-    e.target.style.textDecorationLine = "line-through";
+  function handleDone(id) {
+    const updatedList = activities.map((item) =>
+      item.id === id ? { ...item, completed: !item.completed } : item
+    );
+    setActivities(updatedList);
   }
   function handleDelete(id) {
     const updatedList = activities.filter((item) => item.id !== id);
@@ -45,9 +49,16 @@ function Board({ activities, setActivities }) {
   return (
     <StyledBoard>
       <ul>
-        {activities.map((activity, i) => (
-          <li key={i}>
-            <span onClick={handleDone}>{activity.name}</span>
+        {activities.map((activity) => (
+          <li key={activity.id}>
+            <span
+              onClick={() => handleDone(activity.id)}
+              style={{
+                textDecoration: activity.completed ? "line-through" : "none",
+              }}
+            >
+              {activity.name}
+            </span>
             <IoCloseCircle
               onClick={() => handleDelete(activity.id)}
               role="button"
