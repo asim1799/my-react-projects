@@ -3,6 +3,7 @@ import { TbSquareRoundedLetterT, TbLocationDollar } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMoney } from "../features/accounts/accountSlice";
 import { useState } from "react";
+import { Motion } from "./Motion";
 
 const StyledWelcomeScreen = styled.div`
   position: absolute;
@@ -66,32 +67,34 @@ function Home() {
     dispatch(sendMoney(inputBalance));
   }
   return (
-    <StyledWelcomeScreen>
-      <div>
-        <h3>Welcome, {user.username}</h3>
-      </div>
-      <div className="account-info">
-        <h4>Account informations</h4>
-        <h5>Your balance: {user.balance}</h5>
-      </div>
-      <StyledInput
-        onChange={(e) => setInputBalance(e.target.value)}
-        placeholder="amount"
-      />
-      <StyledInput placeholder="recipient" />
-      <div>
-        <StyledSendButton onClick={() => handleSend()}>
-          <TbLocationDollar />
-        </StyledSendButton>
-        <p>Send money</p>
-      </div>
-      <div>
-        <StyledTransactionsButton>
-          <TbSquareRoundedLetterT />
-        </StyledTransactionsButton>
-        <p>Transaction history</p>
-      </div>
-    </StyledWelcomeScreen>
+    <Motion>
+      <StyledWelcomeScreen>
+        <div>
+          <h3>Welcome, {user.username}</h3>
+        </div>
+        <div className="account-info">
+          <h4>Account informations</h4>
+          <h5>Your balance: {user.balance}</h5>
+        </div>
+        <StyledInput
+          onChange={(e) => setInputBalance(e.target.value)}
+          placeholder="amount"
+        />
+        <StyledInput placeholder="recipient" />
+        <div>
+          <StyledSendButton onClick={() => handleSend()}>
+            <TbLocationDollar />
+          </StyledSendButton>
+          <p>Send money</p>
+        </div>
+        <div>
+          <StyledTransactionsButton>
+            <TbSquareRoundedLetterT />
+          </StyledTransactionsButton>
+          <p>Transaction history</p>
+        </div>
+      </StyledWelcomeScreen>
+    </Motion>
   );
 }
 
