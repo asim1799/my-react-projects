@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import { TbSquareRoundedLetterT, TbLocationDollar } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { sendMoney } from "../features/accounts/accountSlice";
+import { useState } from "react";
+
 const StyledWelcomeScreen = styled.div`
   position: absolute;
   top: 50%;
@@ -54,20 +58,29 @@ const StyledTransactionsButton = styled.button`
   border-radius: 50%;
   padding-top: 5px;
 `;
-function Home({ user }) {
+function Home() {
+  const user = useSelector((store) => store.account.user);
+  const [inputBalance, setInputBalance] = useState("");
+  const dispatch = useDispatch();
+  function handleSend() {
+    dispatch(sendMoney(inputBalance));
+  }
   return (
     <StyledWelcomeScreen>
       <div>
-        <h3>Welcome {user.username}</h3>
+        <h3>Welcome, {user.username}</h3>
       </div>
       <div className="account-info">
         <h4>Account informations</h4>
-        <h5>Your balance: X</h5>
+        <h5>Your balance: {user.balance}</h5>
       </div>
-      <StyledInput placeholder="amount" />
+      <StyledInput
+        onChange={(e) => setInputBalance(e.target.value)}
+        placeholder="amount"
+      />
       <StyledInput placeholder="recipient" />
       <div>
-        <StyledSendButton>
+        <StyledSendButton onClick={() => handleSend()}>
           <TbLocationDollar />
         </StyledSendButton>
         <p>Send money</p>

@@ -1,13 +1,13 @@
-import { useState } from "react";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [user, setUser] = useState({});
+  const account = useSelector((store) => store.account);
   return (
     <div>
       <h1>BudgetBee</h1>
-      {!user.username ? <Login setUser={setUser} /> : <Home user={user} />}
+      {account.user ? <Home /> : <Login />}
     </div>
   );
 }

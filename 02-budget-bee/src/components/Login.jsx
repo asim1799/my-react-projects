@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/accounts/accountSlice";
 import styled from "styled-components";
 const StyledForm = styled.form`
   display: grid;
@@ -32,12 +34,12 @@ const StyledForm = styled.form`
     cursor: pointer;
   }
 `;
-function Login({ setUser }) {
+function Login() {
   const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
   function onSubmit(data) {
-    setUser(data);
+    dispatch(setUser(data));
   }
-
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
       <input
