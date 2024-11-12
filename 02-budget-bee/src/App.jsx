@@ -1,12 +1,12 @@
 import Login from "./components/Login";
 import Home from "./components/Home";
+import Logo from "./components/Logo";
 import { useSelector } from "react-redux";
-
 function App() {
   const account = useSelector((store) => store.account);
   return (
     <div>
-      <h1>BudgetBee</h1>
+      <Logo />
       {account.user ? <Home /> : <Login />}
     </div>
   );
