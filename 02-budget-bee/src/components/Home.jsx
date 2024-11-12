@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { TbSquareRoundedLetterT, TbLocationDollar } from "react-icons/tb";
 const StyledWelcomeScreen = styled.div`
   position: absolute;
   top: 50%;
@@ -21,7 +21,11 @@ const StyledWelcomeScreen = styled.div`
     background-color: #252626;
     border: 3px solid #4b4e4e;
     border-radius: 20px;
+
     padding: 5px;
+  }
+  button {
+    cursor: pointer;
   }
 `;
 const StyledInput = styled.input`
@@ -34,16 +38,21 @@ const StyledInput = styled.input`
   justify-self: center;
 `;
 const StyledSendButton = styled.button`
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  font-size: 24px;
   background-color: #cdbd95;
+  border-radius: 50%;
+  margin-top: 5px;
+  padding-top: 5px;
 `;
 const StyledTransactionsButton = styled.button`
   height: 60px;
   width: 60px;
-  border-radius: 50%;
+  font-size: 32px;
   background-color: #9bd7b7;
+  border-radius: 50%;
+  padding-top: 5px;
 `;
 function Home({ user }) {
   return (
@@ -58,11 +67,15 @@ function Home({ user }) {
       <StyledInput placeholder="amount" />
       <StyledInput placeholder="recipient" />
       <div>
-        <StyledSendButton>$</StyledSendButton>
+        <StyledSendButton>
+          <TbLocationDollar />
+        </StyledSendButton>
         <p>Send money</p>
       </div>
       <div>
-        <StyledTransactionsButton>T</StyledTransactionsButton>
+        <StyledTransactionsButton>
+          <TbSquareRoundedLetterT />
+        </StyledTransactionsButton>
         <p>Transaction history</p>
       </div>
     </StyledWelcomeScreen>
