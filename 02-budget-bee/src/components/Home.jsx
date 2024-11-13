@@ -24,6 +24,7 @@ const StyledWelcomeScreen = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 2fr 1fr 1fr;
   padding: 30px;
+  cursor: default;
   div {
     background-color: #252626;
     border: 3px solid #4b4e4e;
@@ -36,16 +37,34 @@ const StyledWelcomeScreen = styled.div`
   .transactions-history {
     max-height: 140px;
     overflow: auto;
+    h4 {
+      text-transform: uppercase;
+      border-bottom: 3px solid #8a8a8a;
+      margin: 5px 0px;
+    }
+    li {
+      border-bottom: 1px solid #4b4e4e;
+      margin-bottom: 4px;
+      text-align: start;
+    }
   }
 `;
 const StyledInput = styled.input`
   height: 50px;
   width: 70%;
   text-align: center;
-  border: 3px solid #4b4e4e;
+  background-color: #9e9e9e;
+  border: 3px solid #e3e3e3;
   border-radius: 10px;
   align-self: center;
   justify-self: center;
+  &:focus {
+    outline: 3px solid #d16a6a;
+  }
+  &::placeholder {
+    font-weight: 800;
+    text-transform: uppercase;
+  }
 `;
 const StyledSendButton = styled.button`
   height: 50px;
@@ -105,26 +124,26 @@ function Home() {
             <ul>
               {transactions.map((transaction) => (
                 <li key={transaction.id}>
-                  {transaction.amount} - {transaction.recipient}
+                  🟢{transaction.amount}€ -{transaction.recipient}
                 </li>
               ))}
             </ul>
           </div>
         ) : (
           <div className="account-info">
-            <h4>Account informations</h4>
+            <h4>Account informations:</h4>
             <h5>Your balance: {user.balance}</h5>
           </div>
         )}
         <StyledInput
           value={inputBalance}
           onChange={(e) => setInputBalance(e.target.value)}
-          placeholder="amount"
+          placeholder="input amount... [€]"
         />
         <StyledInput
           value={recipient}
           onChange={(e) => setReciepient(e.target.value)}
-          placeholder="recipient"
+          placeholder="input recipient..."
         />
         <div>
           <StyledSendButton onClick={() => handleSend()}>
