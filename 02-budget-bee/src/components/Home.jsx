@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { TbSquareRoundedLetterT, TbLocationDollar } from "react-icons/tb";
+import { MdAccountCircle } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMoney } from "../features/accounts/accountSlice";
 import { useState } from "react";
@@ -26,7 +27,6 @@ const StyledWelcomeScreen = styled.div`
     background-color: #252626;
     border: 3px solid #4b4e4e;
     border-radius: 20px;
-
     padding: 5px;
   }
   button {
@@ -60,11 +60,15 @@ const StyledTransactionsButton = styled.button`
   padding-top: 5px;
 `;
 function Home() {
+  const [transactionToggle, setTransactionToggle] = useState(false);
   const user = useSelector((store) => store.account.user);
   const [inputBalance, setInputBalance] = useState("");
   const dispatch = useDispatch();
   function handleSend() {
     dispatch(sendMoney(inputBalance));
+  }
+  function handleTransactionToggle() {
+    setTransactionToggle(!transactionToggle);
   }
   return (
     <Motion>
@@ -72,10 +76,16 @@ function Home() {
         <div>
           <h3>Welcome, {user.username}</h3>
         </div>
-        <div className="account-info">
-          <h4>Account informations</h4>
-          <h5>Your balance: {user.balance}</h5>
-        </div>
+        {transactionToggle ? (
+          <div className="transactions-history">
+            <h4>Transaction history:</h4>
+          </div>
+        ) : (
+          <div className="account-info">
+            <h4>Account informations</h4>
+            <h5>Your balance: {user.balance}</h5>
+          </div>
+        )}
         <StyledInput
           onChange={(e) => setInputBalance(e.target.value)}
           placeholder="amount"
@@ -88,14 +98,21 @@ function Home() {
           <p>Send money</p>
         </div>
         <div>
-          <StyledTransactionsButton>
-            <TbSquareRoundedLetterT />
+          <StyledTransactionsButton onClick={handleTransactionToggle}>
+            {transactionToggle ? (
+              <MdAccountCircle />
+            ) : (
+              <TbSquareRoundedLetterT />
+            )}
           </StyledTransactionsButton>
-          <p>Transaction history</p>
+          {transactionToggle ? (
+            <p>Show account informations</p>
+          ) : (
+            <p>Transaction history</p>
+          )}
         </div>
       </StyledWelcomeScreen>
     </Motion>
   );
 }
-
 export default Home;
