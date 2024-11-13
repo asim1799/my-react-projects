@@ -8,9 +8,7 @@ export const accountSlice = createSlice({
       state.user = { ...action.payload, balance: 2000 };
     },
     sendMoney: (state, action) => {
-      if (state.user.balance >= action.payload) {
-        state.user.balance -= action.payload;
-      }
+      state.user.balance -= action.payload;
     },
   },
 });

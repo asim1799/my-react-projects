@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendMoney } from "../features/accounts/accountSlice";
 import { useState } from "react";
 import { Motion } from "./Motion";
+import { addTransaction } from "../features/transactions/transactionSlice";
 
 const StyledWelcomeScreen = styled.div`
   position: absolute;
@@ -31,6 +32,10 @@ const StyledWelcomeScreen = styled.div`
   }
   button {
     cursor: pointer;
+  }
+  .transactions-history {
+    max-height: 140px;
+    overflow: auto;
   }
 `;
 const StyledInput = styled.input`
@@ -62,10 +67,28 @@ const StyledTransactionsButton = styled.button`
 function Home() {
   const [transactionToggle, setTransactionToggle] = useState(false);
   const user = useSelector((store) => store.account.user);
+  const transactions = useSelector((store) => store.transaction);
   const [inputBalance, setInputBalance] = useState("");
+  const [recipient, setReciepient] = useState("");
   const dispatch = useDispatch();
   function handleSend() {
-    dispatch(sendMoney(inputBalance));
+    if (
+      user.balance >= inputBalance &&
+      recipient !== "" &&
+      inputBalance !== ""
+    ) {
+      dispatch(sendMoney(inputBalance));
+      dispatch(
+        addTransaction({
+          amount: inputBalance,
+          recipient,
+        })
+      );
+    } else {
+      alert("Incorrect input! Try again!");
+    }
+    setInputBalance("");
+    setReciepient("");
   }
   function handleTransactionToggle() {
     setTransactionToggle(!transactionToggle);
@@ -79,6 +102,13 @@ function Home() {
         {transactionToggle ? (
           <div className="transactions-history">
             <h4>Transaction history:</h4>
+            <ul>
+              {transactions.map((transaction) => (
+                <li key={transaction.id}>
+                  {transaction.amount} - {transaction.recipient}
+                </li>
+              ))}
+            </ul>
           </div>
         ) : (
           <div className="account-info">
@@ -87,10 +117,15 @@ function Home() {
           </div>
         )}
         <StyledInput
+          value={inputBalance}
           onChange={(e) => setInputBalance(e.target.value)}
           placeholder="amount"
         />
-        <StyledInput placeholder="recipient" />
+        <StyledInput
+          value={recipient}
+          onChange={(e) => setReciepient(e.target.value)}
+          placeholder="recipient"
+        />
         <div>
           <StyledSendButton onClick={() => handleSend()}>
             <TbLocationDollar />
