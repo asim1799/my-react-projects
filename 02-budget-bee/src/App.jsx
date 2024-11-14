@@ -1,5 +1,5 @@
 import Login from "./components/Login";
-import Home from "./components/Home";
+import Home from "./components/homeScreen/Home";
 import Logo from "./components/Logo";
 import { useSelector } from "react-redux";
 function App() {
