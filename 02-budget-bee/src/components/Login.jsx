@@ -34,11 +34,12 @@ const StyledForm = styled.form`
     cursor: pointer;
   }
 `;
-function Login() {
+function Login({ setIsLogged }) {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
   function onSubmit(data) {
     dispatch(setUser(data));
+    setIsLogged(true);
   }
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
