@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { sendMoney } from "../../features/accounts/accountSlice";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 import { Motion } from "../Motion";
-import { addTransaction } from "../../features/transactions/transactionSlice";
 import WelcomeMessage from "./WelcomeMessage";
 import TransactionsHistory from "./TransactionsHistory";
 import AccountInfomations from "./AccountInfomations";
@@ -44,34 +42,11 @@ function Home() {
   const { username, balance } = useSelector((store) => store.account.user);
   const [inputBalance, setInputBalance] = useState("");
   const [recipient, setReciepient] = useState("");
-  const dispatch = useDispatch();
-  function handleSend() {
-    if (balance >= inputBalance && recipient !== "" && inputBalance !== "") {
-      dispatch(sendMoney(inputBalance));
-      dispatch(
-        addTransaction({
-          amount: inputBalance,
-          recipient,
-        })
-      );
-    } else {
-      alert("Incorrect input! Try again!");
-    }
-    setInputBalance("");
-    setReciepient("");
-  }
-  function handleTransactionToggle() {
-    setTransactionToggle(!transactionToggle);
-  }
   return (
     <Motion>
       <StyledHomeScreen>
         <WelcomeMessage username={username} />
-        {transactionToggle ? (
-          <TransactionsHistory />
-        ) : (
-          <AccountInfomations balance={balance} />
-        )}
+        {transactionToggle ? <TransactionsHistory /> : <AccountInfomations />}
         <InputField
           recipient={recipient}
           setReciepient={setReciepient}
@@ -79,9 +54,13 @@ function Home() {
           setInputBalance={setInputBalance}
         />
         <ButtonField
+          balance={balance}
           transactionToggle={transactionToggle}
-          handleSend={handleSend}
-          handleTransactionToggle={handleTransactionToggle}
+          setTransactionToggle={setTransactionToggle}
+          inputBalance={inputBalance}
+          setInputBalance={setInputBalance}
+          recipient={recipient}
+          setReciepient={setReciepient}
         />
       </StyledHomeScreen>
     </Motion>

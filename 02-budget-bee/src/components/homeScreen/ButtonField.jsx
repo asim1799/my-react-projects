@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { TbSquareRoundedLetterT, TbLocationDollar } from "react-icons/tb";
 import { MdAccountCircle } from "react-icons/md";
+import { sendMoney } from "../../features/accounts/accountSlice";
+import { addTransaction } from "../../features/transactions/transactionSlice";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+
 const StyledSendButton = styled.button`
   height: 50px;
   width: 50px;
@@ -19,10 +24,35 @@ const StyledTransactionsButton = styled.button`
   padding-top: 5px;
 `;
 function ButtonField({
+  balance,
   transactionToggle,
-  handleSend,
-  handleTransactionToggle,
+  setTransactionToggle,
+  inputBalance,
+  setInputBalance,
+  recipient,
+  setReciepient,
 }) {
+  const dispatch = useDispatch();
+
+  function handleSend() {
+    if (balance >= inputBalance && recipient !== "" && inputBalance !== "") {
+      dispatch(sendMoney(inputBalance));
+      dispatch(
+        addTransaction({
+          amount: inputBalance,
+          recipient,
+        })
+      );
+      toast("✅ Successful money transfer!");
+    } else {
+      toast("⛔ Incorrect input! Try again!");
+    }
+    setInputBalance("");
+    setReciepient("");
+  }
+  function handleTransactionToggle() {
+    setTransactionToggle(!transactionToggle);
+  }
   return (
     <>
       <div>

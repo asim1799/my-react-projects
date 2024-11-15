@@ -1,4 +1,8 @@
-function AccountInfomations({ balance }) {
+import { useSelector } from "react-redux";
+
+function AccountInfomations() {
+  const { balance } = useSelector((store) => store.account.user);
+
   return (
     <div className="account-info">
       <h4>Account informations:</h4>
